@@ -1,0 +1,1410 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>Decision support system for Hingoli District of Maharashtra</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/Cotton_suitability_FAO_2.js"></script>
+        <script src="data/Sorghum_suitability_FAO_3.js"></script>
+        <script src="data/Pigeonpea_suitability_FAO_4.js"></script>
+        <script src="data/Soybean_suitability_FAO_5.js"></script>
+        <script src="data/Turmericsuitability_FAO_6.js"></script>
+        <script src="data/Cotton_suitability_7.js"></script>
+        <script src="data/Sorghum_suitability_8.js"></script>
+        <script src="data/Pigeonpea_suitability_9.js"></script>
+        <script src="data/Soybean_suitability_10.js"></script>
+        <script src="data/Turmeric_suitability_11.js"></script>
+        <script src="data/LandCapabiityClassificaton_12.js"></script>
+        <script src="data/Irrigability_classification_13.js"></script>
+        <script src="data/Soil_Map_14.js"></script>
+        <script src="data/HingoliDistrict_15.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[18.66519620047849,75.34677326582181],[20.702825819974827,78.58753230555234]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_OSMStandard_0');
+        map.getPane('pane_OSMStandard_0').style.zIndex = 400;
+        var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OSMStandard_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OSMStandard_0;
+        map.addLayer(layer_OSMStandard_0);
+        map.createPane('pane_GoogleSatellite_1');
+        map.getPane('pane_GoogleSatellite_1').style.zIndex = 401;
+        var layer_GoogleSatellite_1 = L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatellite_1',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_GoogleSatellite_1;
+        map.addLayer(layer_GoogleSatellite_1);
+        function pop_Cotton_suitability_FAO_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Code</strong><br />' + (feature.properties['Code'] !== null ? autolinker.link(feature.properties['Code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Landform</strong><br />' + (feature.properties['Landform'] !== null ? autolinker.link(feature.properties['Landform'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>SOIL TYPE</strong><br />' + (feature.properties['SOIL TYPE'] !== null ? autolinker.link(feature.properties['SOIL TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PEDON_1</strong><br />' + (feature.properties['PEDON_1'] !== null ? autolinker.link(feature.properties['PEDON_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Order</strong><br />' + (feature.properties['Order'] !== null ? autolinker.link(feature.properties['Order'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Cotton_FAO</strong><br />' + (feature.properties['Cotton_FAO'] !== null ? autolinker.link(feature.properties['Cotton_FAO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Cotton_suitability_FAO_2_0(feature) {
+            switch(String(feature.properties['Cotton_FAO'])) {
+                case 'S1':
+                    return {
+                pane: 'pane_Cotton_suitability_FAO_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,104,24,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S2':
+                    return {
+                pane: 'pane_Cotton_suitability_FAO_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(163,255,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S3':
+                    return {
+                pane: 'pane_Cotton_suitability_FAO_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Water body':
+                    return {
+                pane: 'pane_Cotton_suitability_FAO_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(25,14,239,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Cotton_suitability_FAO_2');
+        map.getPane('pane_Cotton_suitability_FAO_2').style.zIndex = 402;
+        map.getPane('pane_Cotton_suitability_FAO_2').style['mix-blend-mode'] = 'normal';
+        var layer_Cotton_suitability_FAO_2 = new L.geoJson(json_Cotton_suitability_FAO_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Cotton_suitability_FAO_2',
+            layerName: 'layer_Cotton_suitability_FAO_2',
+            pane: 'pane_Cotton_suitability_FAO_2',
+            onEachFeature: pop_Cotton_suitability_FAO_2,
+            style: style_Cotton_suitability_FAO_2_0,
+        });
+        bounds_group.addLayer(layer_Cotton_suitability_FAO_2);
+        map.addLayer(layer_Cotton_suitability_FAO_2);
+        function pop_Sorghum_suitability_FAO_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Code</strong><br />' + (feature.properties['Code'] !== null ? autolinker.link(feature.properties['Code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Landform</strong><br />' + (feature.properties['Landform'] !== null ? autolinker.link(feature.properties['Landform'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>SOIL TYPE</strong><br />' + (feature.properties['SOIL TYPE'] !== null ? autolinker.link(feature.properties['SOIL TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PEDON_1</strong><br />' + (feature.properties['PEDON_1'] !== null ? autolinker.link(feature.properties['PEDON_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Order</strong><br />' + (feature.properties['Order'] !== null ? autolinker.link(feature.properties['Order'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sorghum_FA</strong><br />' + (feature.properties['Sorghum_FA'] !== null ? autolinker.link(feature.properties['Sorghum_FA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Sorghum_suitability_FAO_3_0(feature) {
+            switch(String(feature.properties['Sorghum_FA'])) {
+                case 'S1':
+                    return {
+                pane: 'pane_Sorghum_suitability_FAO_3',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,104,24,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S2':
+                    return {
+                pane: 'pane_Sorghum_suitability_FAO_3',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(163,255,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S3':
+                    return {
+                pane: 'pane_Sorghum_suitability_FAO_3',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(242,250,4,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Water body':
+                    return {
+                pane: 'pane_Sorghum_suitability_FAO_3',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(25,14,239,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Sorghum_suitability_FAO_3');
+        map.getPane('pane_Sorghum_suitability_FAO_3').style.zIndex = 403;
+        map.getPane('pane_Sorghum_suitability_FAO_3').style['mix-blend-mode'] = 'normal';
+        var layer_Sorghum_suitability_FAO_3 = new L.geoJson(json_Sorghum_suitability_FAO_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Sorghum_suitability_FAO_3',
+            layerName: 'layer_Sorghum_suitability_FAO_3',
+            pane: 'pane_Sorghum_suitability_FAO_3',
+            onEachFeature: pop_Sorghum_suitability_FAO_3,
+            style: style_Sorghum_suitability_FAO_3_0,
+        });
+        bounds_group.addLayer(layer_Sorghum_suitability_FAO_3);
+        map.addLayer(layer_Sorghum_suitability_FAO_3);
+        function pop_Pigeonpea_suitability_FAO_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Code</strong><br />' + (feature.properties['Code'] !== null ? autolinker.link(feature.properties['Code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Landform</strong><br />' + (feature.properties['Landform'] !== null ? autolinker.link(feature.properties['Landform'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>SOIL TYPE</strong><br />' + (feature.properties['SOIL TYPE'] !== null ? autolinker.link(feature.properties['SOIL TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PEDON_1</strong><br />' + (feature.properties['PEDON_1'] !== null ? autolinker.link(feature.properties['PEDON_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Order</strong><br />' + (feature.properties['Order'] !== null ? autolinker.link(feature.properties['Order'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>pigeonpea_</strong><br />' + (feature.properties['pigeonpea_'] !== null ? autolinker.link(feature.properties['pigeonpea_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Pigeonpea_suitability_FAO_4_0(feature) {
+            switch(String(feature.properties['pigeonpea_'])) {
+                case 'S1':
+                    return {
+                pane: 'pane_Pigeonpea_suitability_FAO_4',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,104,24,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S2':
+                    return {
+                pane: 'pane_Pigeonpea_suitability_FAO_4',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(163,255,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S3':
+                    return {
+                pane: 'pane_Pigeonpea_suitability_FAO_4',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(242,250,4,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Water body':
+                    return {
+                pane: 'pane_Pigeonpea_suitability_FAO_4',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(25,14,239,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Pigeonpea_suitability_FAO_4');
+        map.getPane('pane_Pigeonpea_suitability_FAO_4').style.zIndex = 404;
+        map.getPane('pane_Pigeonpea_suitability_FAO_4').style['mix-blend-mode'] = 'normal';
+        var layer_Pigeonpea_suitability_FAO_4 = new L.geoJson(json_Pigeonpea_suitability_FAO_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Pigeonpea_suitability_FAO_4',
+            layerName: 'layer_Pigeonpea_suitability_FAO_4',
+            pane: 'pane_Pigeonpea_suitability_FAO_4',
+            onEachFeature: pop_Pigeonpea_suitability_FAO_4,
+            style: style_Pigeonpea_suitability_FAO_4_0,
+        });
+        bounds_group.addLayer(layer_Pigeonpea_suitability_FAO_4);
+        map.addLayer(layer_Pigeonpea_suitability_FAO_4);
+        function pop_Soybean_suitability_FAO_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Code</strong><br />' + (feature.properties['Code'] !== null ? autolinker.link(feature.properties['Code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Landform</strong><br />' + (feature.properties['Landform'] !== null ? autolinker.link(feature.properties['Landform'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>SOIL TYPE</strong><br />' + (feature.properties['SOIL TYPE'] !== null ? autolinker.link(feature.properties['SOIL TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PEDON_1</strong><br />' + (feature.properties['PEDON_1'] !== null ? autolinker.link(feature.properties['PEDON_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Order</strong><br />' + (feature.properties['Order'] !== null ? autolinker.link(feature.properties['Order'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>soybean_FA</strong><br />' + (feature.properties['soybean_FA'] !== null ? autolinker.link(feature.properties['soybean_FA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Soybean_suitability_FAO_5_0(feature) {
+            switch(String(feature.properties['soybean_FA'])) {
+                case 'S1':
+                    return {
+                pane: 'pane_Soybean_suitability_FAO_5',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,104,24,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S2':
+                    return {
+                pane: 'pane_Soybean_suitability_FAO_5',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(163,255,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S3':
+                    return {
+                pane: 'pane_Soybean_suitability_FAO_5',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(242,250,4,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Water body':
+                    return {
+                pane: 'pane_Soybean_suitability_FAO_5',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(25,14,239,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Soybean_suitability_FAO_5');
+        map.getPane('pane_Soybean_suitability_FAO_5').style.zIndex = 405;
+        map.getPane('pane_Soybean_suitability_FAO_5').style['mix-blend-mode'] = 'normal';
+        var layer_Soybean_suitability_FAO_5 = new L.geoJson(json_Soybean_suitability_FAO_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Soybean_suitability_FAO_5',
+            layerName: 'layer_Soybean_suitability_FAO_5',
+            pane: 'pane_Soybean_suitability_FAO_5',
+            onEachFeature: pop_Soybean_suitability_FAO_5,
+            style: style_Soybean_suitability_FAO_5_0,
+        });
+        bounds_group.addLayer(layer_Soybean_suitability_FAO_5);
+        map.addLayer(layer_Soybean_suitability_FAO_5);
+        function pop_Turmericsuitability_FAO_6(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Code</strong><br />' + (feature.properties['Code'] !== null ? autolinker.link(feature.properties['Code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Landform</strong><br />' + (feature.properties['Landform'] !== null ? autolinker.link(feature.properties['Landform'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>SOIL TYPE</strong><br />' + (feature.properties['SOIL TYPE'] !== null ? autolinker.link(feature.properties['SOIL TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PEDON_1</strong><br />' + (feature.properties['PEDON_1'] !== null ? autolinker.link(feature.properties['PEDON_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Order</strong><br />' + (feature.properties['Order'] !== null ? autolinker.link(feature.properties['Order'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Turmeric_F</strong><br />' + (feature.properties['Turmeric_F'] !== null ? autolinker.link(feature.properties['Turmeric_F'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Turmericsuitability_FAO_6_0(feature) {
+            switch(String(feature.properties['Turmeric_F'])) {
+                case 'S1':
+                    return {
+                pane: 'pane_Turmericsuitability_FAO_6',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,104,24,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S2':
+                    return {
+                pane: 'pane_Turmericsuitability_FAO_6',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(163,255,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S3':
+                    return {
+                pane: 'pane_Turmericsuitability_FAO_6',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(242,250,4,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Water body':
+                    return {
+                pane: 'pane_Turmericsuitability_FAO_6',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(25,14,239,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Turmericsuitability_FAO_6');
+        map.getPane('pane_Turmericsuitability_FAO_6').style.zIndex = 406;
+        map.getPane('pane_Turmericsuitability_FAO_6').style['mix-blend-mode'] = 'normal';
+        var layer_Turmericsuitability_FAO_6 = new L.geoJson(json_Turmericsuitability_FAO_6, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Turmericsuitability_FAO_6',
+            layerName: 'layer_Turmericsuitability_FAO_6',
+            pane: 'pane_Turmericsuitability_FAO_6',
+            onEachFeature: pop_Turmericsuitability_FAO_6,
+            style: style_Turmericsuitability_FAO_6_0,
+        });
+        bounds_group.addLayer(layer_Turmericsuitability_FAO_6);
+        map.addLayer(layer_Turmericsuitability_FAO_6);
+        function pop_Cotton_suitability_7(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Code</strong><br />' + (feature.properties['Code'] !== null ? autolinker.link(feature.properties['Code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Landform</strong><br />' + (feature.properties['Landform'] !== null ? autolinker.link(feature.properties['Landform'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>SOIL TYPE</strong><br />' + (feature.properties['SOIL TYPE'] !== null ? autolinker.link(feature.properties['SOIL TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PEDON_1</strong><br />' + (feature.properties['PEDON_1'] !== null ? autolinker.link(feature.properties['PEDON_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Order</strong><br />' + (feature.properties['Order'] !== null ? autolinker.link(feature.properties['Order'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Suitabilit</strong><br />' + (feature.properties['Suitabilit'] !== null ? autolinker.link(feature.properties['Suitabilit'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Class</strong><br />' + (feature.properties['Class'] !== null ? autolinker.link(feature.properties['Class'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Area (Ha)</strong><br />' + (feature.properties['Area (Ha)'] !== null ? autolinker.link(feature.properties['Area (Ha)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Cotton_suitability_7_0(feature) {
+            switch(String(feature.properties['Suitabilit'])) {
+                case 'N1':
+                    return {
+                pane: 'pane_Cotton_suitability_7',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(150,75,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S1':
+                    return {
+                pane: 'pane_Cotton_suitability_7',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,104,24,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S2':
+                    return {
+                pane: 'pane_Cotton_suitability_7',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(163,255,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S3':
+                    return {
+                pane: 'pane_Cotton_suitability_7',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Water body':
+                    return {
+                pane: 'pane_Cotton_suitability_7',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(24,34,208,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Cotton_suitability_7');
+        map.getPane('pane_Cotton_suitability_7').style.zIndex = 407;
+        map.getPane('pane_Cotton_suitability_7').style['mix-blend-mode'] = 'normal';
+        var layer_Cotton_suitability_7 = new L.geoJson(json_Cotton_suitability_7, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Cotton_suitability_7',
+            layerName: 'layer_Cotton_suitability_7',
+            pane: 'pane_Cotton_suitability_7',
+            onEachFeature: pop_Cotton_suitability_7,
+            style: style_Cotton_suitability_7_0,
+        });
+        bounds_group.addLayer(layer_Cotton_suitability_7);
+        map.addLayer(layer_Cotton_suitability_7);
+        function pop_Sorghum_suitability_8(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Code</strong><br />' + (feature.properties['Code'] !== null ? autolinker.link(feature.properties['Code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Landform</strong><br />' + (feature.properties['Landform'] !== null ? autolinker.link(feature.properties['Landform'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>SOIL TYPE</strong><br />' + (feature.properties['SOIL TYPE'] !== null ? autolinker.link(feature.properties['SOIL TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PEDON_1</strong><br />' + (feature.properties['PEDON_1'] !== null ? autolinker.link(feature.properties['PEDON_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Order</strong><br />' + (feature.properties['Order'] !== null ? autolinker.link(feature.properties['Order'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sorghum_NB</strong><br />' + (feature.properties['Sorghum_NB'] !== null ? autolinker.link(feature.properties['Sorghum_NB'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Sorghum_suitability_8_0(feature) {
+            switch(String(feature.properties['Sorghum_NB'])) {
+                case 'S1':
+                    return {
+                pane: 'pane_Sorghum_suitability_8',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,104,24,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S2':
+                    return {
+                pane: 'pane_Sorghum_suitability_8',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(163,255,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S3':
+                    return {
+                pane: 'pane_Sorghum_suitability_8',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(242,250,4,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'N1':
+                    return {
+                pane: 'pane_Sorghum_suitability_8',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(150,75,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Water body':
+                    return {
+                pane: 'pane_Sorghum_suitability_8',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(25,14,239,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Sorghum_suitability_8');
+        map.getPane('pane_Sorghum_suitability_8').style.zIndex = 408;
+        map.getPane('pane_Sorghum_suitability_8').style['mix-blend-mode'] = 'normal';
+        var layer_Sorghum_suitability_8 = new L.geoJson(json_Sorghum_suitability_8, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Sorghum_suitability_8',
+            layerName: 'layer_Sorghum_suitability_8',
+            pane: 'pane_Sorghum_suitability_8',
+            onEachFeature: pop_Sorghum_suitability_8,
+            style: style_Sorghum_suitability_8_0,
+        });
+        bounds_group.addLayer(layer_Sorghum_suitability_8);
+        map.addLayer(layer_Sorghum_suitability_8);
+        function pop_Pigeonpea_suitability_9(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Code</strong><br />' + (feature.properties['Code'] !== null ? autolinker.link(feature.properties['Code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Landform</strong><br />' + (feature.properties['Landform'] !== null ? autolinker.link(feature.properties['Landform'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>SOIL TYPE</strong><br />' + (feature.properties['SOIL TYPE'] !== null ? autolinker.link(feature.properties['SOIL TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PEDON_1</strong><br />' + (feature.properties['PEDON_1'] !== null ? autolinker.link(feature.properties['PEDON_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Order</strong><br />' + (feature.properties['Order'] !== null ? autolinker.link(feature.properties['Order'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>pigeonpea_</strong><br />' + (feature.properties['pigeonpea_'] !== null ? autolinker.link(feature.properties['pigeonpea_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Pigeonpea_suitability_9_0(feature) {
+            switch(String(feature.properties['pigeonpea_'])) {
+                case 'S1':
+                    return {
+                pane: 'pane_Pigeonpea_suitability_9',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,104,24,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S2':
+                    return {
+                pane: 'pane_Pigeonpea_suitability_9',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(163,255,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S3':
+                    return {
+                pane: 'pane_Pigeonpea_suitability_9',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(242,250,4,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'N1':
+                    return {
+                pane: 'pane_Pigeonpea_suitability_9',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(150,75,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Water body':
+                    return {
+                pane: 'pane_Pigeonpea_suitability_9',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(25,14,239,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Pigeonpea_suitability_9');
+        map.getPane('pane_Pigeonpea_suitability_9').style.zIndex = 409;
+        map.getPane('pane_Pigeonpea_suitability_9').style['mix-blend-mode'] = 'normal';
+        var layer_Pigeonpea_suitability_9 = new L.geoJson(json_Pigeonpea_suitability_9, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Pigeonpea_suitability_9',
+            layerName: 'layer_Pigeonpea_suitability_9',
+            pane: 'pane_Pigeonpea_suitability_9',
+            onEachFeature: pop_Pigeonpea_suitability_9,
+            style: style_Pigeonpea_suitability_9_0,
+        });
+        bounds_group.addLayer(layer_Pigeonpea_suitability_9);
+        map.addLayer(layer_Pigeonpea_suitability_9);
+        function pop_Soybean_suitability_10(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Code</strong><br />' + (feature.properties['Code'] !== null ? autolinker.link(feature.properties['Code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Landform</strong><br />' + (feature.properties['Landform'] !== null ? autolinker.link(feature.properties['Landform'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>SOIL TYPE</strong><br />' + (feature.properties['SOIL TYPE'] !== null ? autolinker.link(feature.properties['SOIL TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PEDON_1</strong><br />' + (feature.properties['PEDON_1'] !== null ? autolinker.link(feature.properties['PEDON_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Order</strong><br />' + (feature.properties['Order'] !== null ? autolinker.link(feature.properties['Order'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>soybean_NB</strong><br />' + (feature.properties['soybean_NB'] !== null ? autolinker.link(feature.properties['soybean_NB'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Soybean_suitability_10_0(feature) {
+            switch(String(feature.properties['soybean_NB'])) {
+                case 'S1':
+                    return {
+                pane: 'pane_Soybean_suitability_10',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,104,24,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S2':
+                    return {
+                pane: 'pane_Soybean_suitability_10',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(163,255,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S3':
+                    return {
+                pane: 'pane_Soybean_suitability_10',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(242,250,4,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'N1':
+                    return {
+                pane: 'pane_Soybean_suitability_10',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(150,75,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Water body':
+                    return {
+                pane: 'pane_Soybean_suitability_10',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(25,14,239,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Soybean_suitability_10');
+        map.getPane('pane_Soybean_suitability_10').style.zIndex = 410;
+        map.getPane('pane_Soybean_suitability_10').style['mix-blend-mode'] = 'normal';
+        var layer_Soybean_suitability_10 = new L.geoJson(json_Soybean_suitability_10, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Soybean_suitability_10',
+            layerName: 'layer_Soybean_suitability_10',
+            pane: 'pane_Soybean_suitability_10',
+            onEachFeature: pop_Soybean_suitability_10,
+            style: style_Soybean_suitability_10_0,
+        });
+        bounds_group.addLayer(layer_Soybean_suitability_10);
+        map.addLayer(layer_Soybean_suitability_10);
+        function pop_Turmeric_suitability_11(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Code</strong><br />' + (feature.properties['Code'] !== null ? autolinker.link(feature.properties['Code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Landform</strong><br />' + (feature.properties['Landform'] !== null ? autolinker.link(feature.properties['Landform'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>SOIL TYPE</strong><br />' + (feature.properties['SOIL TYPE'] !== null ? autolinker.link(feature.properties['SOIL TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PEDON_1</strong><br />' + (feature.properties['PEDON_1'] !== null ? autolinker.link(feature.properties['PEDON_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Order</strong><br />' + (feature.properties['Order'] !== null ? autolinker.link(feature.properties['Order'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Turmeric_N</strong><br />' + (feature.properties['Turmeric_N'] !== null ? autolinker.link(feature.properties['Turmeric_N'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Turmeric_suitability_11_0(feature) {
+            switch(String(feature.properties['Turmeric_N'])) {
+                case 'S1':
+                    return {
+                pane: 'pane_Turmeric_suitability_11',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,104,24,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S2':
+                    return {
+                pane: 'pane_Turmeric_suitability_11',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(163,255,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'S3':
+                    return {
+                pane: 'pane_Turmeric_suitability_11',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(242,250,4,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'N1':
+                    return {
+                pane: 'pane_Turmeric_suitability_11',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(150,75,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Water body':
+                    return {
+                pane: 'pane_Turmeric_suitability_11',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(25,14,239,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Turmeric_suitability_11');
+        map.getPane('pane_Turmeric_suitability_11').style.zIndex = 411;
+        map.getPane('pane_Turmeric_suitability_11').style['mix-blend-mode'] = 'normal';
+        var layer_Turmeric_suitability_11 = new L.geoJson(json_Turmeric_suitability_11, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Turmeric_suitability_11',
+            layerName: 'layer_Turmeric_suitability_11',
+            pane: 'pane_Turmeric_suitability_11',
+            onEachFeature: pop_Turmeric_suitability_11,
+            style: style_Turmeric_suitability_11_0,
+        });
+        bounds_group.addLayer(layer_Turmeric_suitability_11);
+        map.addLayer(layer_Turmeric_suitability_11);
+        function pop_LandCapabiityClassificaton_12(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Code</strong><br />' + (feature.properties['Code'] !== null ? autolinker.link(feature.properties['Code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Landform</strong><br />' + (feature.properties['Landform'] !== null ? autolinker.link(feature.properties['Landform'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>SOIL TYPE</strong><br />' + (feature.properties['SOIL TYPE'] !== null ? autolinker.link(feature.properties['SOIL TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PEDON_1</strong><br />' + (feature.properties['PEDON_1'] !== null ? autolinker.link(feature.properties['PEDON_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Order</strong><br />' + (feature.properties['Order'] !== null ? autolinker.link(feature.properties['Order'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>LCC</strong><br />' + (feature.properties['LCC'] !== null ? autolinker.link(feature.properties['LCC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_LandCapabiityClassificaton_12_0(feature) {
+            switch(String(feature.properties['LCC'])) {
+                case 'II':
+                    return {
+                pane: 'pane_LandCapabiityClassificaton_12',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'III':
+                    return {
+                pane: 'pane_LandCapabiityClassificaton_12',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(150,75,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'IV':
+                    return {
+                pane: 'pane_LandCapabiityClassificaton_12',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,192,203,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'V':
+                    return {
+                pane: 'pane_LandCapabiityClassificaton_12',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(54,69,79,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Water body':
+                    return {
+                pane: 'pane_LandCapabiityClassificaton_12',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(25,14,239,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_LandCapabiityClassificaton_12');
+        map.getPane('pane_LandCapabiityClassificaton_12').style.zIndex = 412;
+        map.getPane('pane_LandCapabiityClassificaton_12').style['mix-blend-mode'] = 'normal';
+        var layer_LandCapabiityClassificaton_12 = new L.geoJson(json_LandCapabiityClassificaton_12, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_LandCapabiityClassificaton_12',
+            layerName: 'layer_LandCapabiityClassificaton_12',
+            pane: 'pane_LandCapabiityClassificaton_12',
+            onEachFeature: pop_LandCapabiityClassificaton_12,
+            style: style_LandCapabiityClassificaton_12_0,
+        });
+        bounds_group.addLayer(layer_LandCapabiityClassificaton_12);
+        map.addLayer(layer_LandCapabiityClassificaton_12);
+        function pop_Irrigability_classification_13(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Code</strong><br />' + (feature.properties['Code'] !== null ? autolinker.link(feature.properties['Code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Landform</strong><br />' + (feature.properties['Landform'] !== null ? autolinker.link(feature.properties['Landform'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>SOIL TYPE</strong><br />' + (feature.properties['SOIL TYPE'] !== null ? autolinker.link(feature.properties['SOIL TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PEDON_1</strong><br />' + (feature.properties['PEDON_1'] !== null ? autolinker.link(feature.properties['PEDON_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Order</strong><br />' + (feature.properties['Order'] !== null ? autolinker.link(feature.properties['Order'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Class</strong><br />' + (feature.properties['Class'] !== null ? autolinker.link(feature.properties['Class'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Sub class</strong><br />' + (feature.properties['Sub class'] !== null ? autolinker.link(feature.properties['Sub class'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Irrigability_classification_13_0(feature) {
+            switch(String(feature.properties['Sub class'])) {
+                case 'IIs':
+                    return {
+                pane: 'pane_Irrigability_classification_13',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,104,24,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'IIst':
+                    return {
+                pane: 'pane_Irrigability_classification_13',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(163,255,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'IIIst':
+                    return {
+                pane: 'pane_Irrigability_classification_13',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'IVs':
+                    return {
+                pane: 'pane_Irrigability_classification_13',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(150,75,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'IVst':
+                    return {
+                pane: 'pane_Irrigability_classification_13',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(220,22,58,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Water body':
+                    return {
+                pane: 'pane_Irrigability_classification_13',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(25,14,239,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Irrigability_classification_13');
+        map.getPane('pane_Irrigability_classification_13').style.zIndex = 413;
+        map.getPane('pane_Irrigability_classification_13').style['mix-blend-mode'] = 'normal';
+        var layer_Irrigability_classification_13 = new L.geoJson(json_Irrigability_classification_13, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Irrigability_classification_13',
+            layerName: 'layer_Irrigability_classification_13',
+            pane: 'pane_Irrigability_classification_13',
+            onEachFeature: pop_Irrigability_classification_13,
+            style: style_Irrigability_classification_13_0,
+        });
+        bounds_group.addLayer(layer_Irrigability_classification_13);
+        map.addLayer(layer_Irrigability_classification_13);
+        function pop_Soil_Map_14(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Code</strong><br />' + (feature.properties['Code'] !== null ? autolinker.link(feature.properties['Code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Landform</strong><br />' + (feature.properties['Landform'] !== null ? autolinker.link(feature.properties['Landform'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>SOIL TYPE</strong><br />' + (feature.properties['SOIL TYPE'] !== null ? autolinker.link(feature.properties['SOIL TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PEDON_1</strong><br />' + (feature.properties['PEDON_1'] !== null ? autolinker.link(feature.properties['PEDON_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Order</strong><br />' + (feature.properties['Order'] !== null ? autolinker.link(feature.properties['Order'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Soil_Map_14_0(feature) {
+            switch(String(feature.properties['SOIL TYPE'])) {
+                case 'Calcic Haplustepts':
+                    return {
+                pane: 'pane_Soil_Map_14',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(203,57,229,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Calcic Haplusterts':
+                    return {
+                pane: 'pane_Soil_Map_14',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(204,85,140,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Sodic Haplusterts':
+                    return {
+                pane: 'pane_Soil_Map_14',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(170,219,125,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Typic Haplustepts':
+                    return {
+                pane: 'pane_Soil_Map_14',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(207,183,48,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Typic Haplusterts':
+                    return {
+                pane: 'pane_Soil_Map_14',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(239,92,55,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Typic Ustortents':
+                    return {
+                pane: 'pane_Soil_Map_14',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(38,131,230,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Vertic Haplustepts':
+                    return {
+                pane: 'pane_Soil_Map_14',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(40,235,75,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Water Body':
+                    return {
+                pane: 'pane_Soil_Map_14',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(79,50,207,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Soil_Map_14');
+        map.getPane('pane_Soil_Map_14').style.zIndex = 414;
+        map.getPane('pane_Soil_Map_14').style['mix-blend-mode'] = 'normal';
+        var layer_Soil_Map_14 = new L.geoJson(json_Soil_Map_14, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Soil_Map_14',
+            layerName: 'layer_Soil_Map_14',
+            pane: 'pane_Soil_Map_14',
+            onEachFeature: pop_Soil_Map_14,
+            style: style_Soil_Map_14_0,
+        });
+        bounds_group.addLayer(layer_Soil_Map_14);
+        map.addLayer(layer_Soil_Map_14);
+        function pop_HingoliDistrict_15(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Boundry'] !== null ? autolinker.link(feature.properties['Boundry'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_HingoliDistrict_15_0() {
+            return {
+                pane: 'pane_HingoliDistrict_15',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_HingoliDistrict_15');
+        map.getPane('pane_HingoliDistrict_15').style.zIndex = 415;
+        map.getPane('pane_HingoliDistrict_15').style['mix-blend-mode'] = 'normal';
+        var layer_HingoliDistrict_15 = new L.geoJson(json_HingoliDistrict_15, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_HingoliDistrict_15',
+            layerName: 'layer_HingoliDistrict_15',
+            pane: 'pane_HingoliDistrict_15',
+            onEachFeature: pop_HingoliDistrict_15,
+            style: style_HingoliDistrict_15_0,
+        });
+        bounds_group.addLayer(layer_HingoliDistrict_15);
+        map.addLayer(layer_HingoliDistrict_15);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>Decision support system for Hingoli District of Maharashtra</h2>';
+            };
+            title.addTo(map);
+            var abstract = new L.Control({'position':'bottomleft'});
+            abstract.onAdd = function (map) {
+                this._div = L.DomUtil.create('div',
+                'leaflet-control abstract');
+                this._div.id = 'abstract'
+
+                    abstract.show();
+                    return this._div;
+                };
+                abstract.show = function () {
+                    this._div.classList.remove("abstract");
+                    this._div.classList.add("abstractUncollapsed");
+                    this._div.innerHTML = 'Depertment of Soil Science and Agricultural Chemistry, College of Agriculture, Vasantrao Naik Marathwada Krishi Vidyapeeth Parbhani';
+            };
+            abstract.addTo(map);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/HingoliDistrict_15.png" /> Hingoli District': layer_HingoliDistrict_15,'Soil_Map<br /><table><tr><td style="text-align: center;"><img src="legend/Soil_Map_14_CalcicHaplustepts0.png" /></td><td>Calcic Haplustepts</td></tr><tr><td style="text-align: center;"><img src="legend/Soil_Map_14_CalcicHaplusterts1.png" /></td><td>Calcic Haplusterts</td></tr><tr><td style="text-align: center;"><img src="legend/Soil_Map_14_SodicHaplusterts2.png" /></td><td>Sodic Haplusterts</td></tr><tr><td style="text-align: center;"><img src="legend/Soil_Map_14_TypicHaplustepts3.png" /></td><td>Typic Haplustepts</td></tr><tr><td style="text-align: center;"><img src="legend/Soil_Map_14_TypicHaplusterts4.png" /></td><td>Typic Haplusterts</td></tr><tr><td style="text-align: center;"><img src="legend/Soil_Map_14_TypicUstortents5.png" /></td><td>Typic Ustortents</td></tr><tr><td style="text-align: center;"><img src="legend/Soil_Map_14_VerticHaplustepts6.png" /></td><td>Vertic Haplustepts</td></tr><tr><td style="text-align: center;"><img src="legend/Soil_Map_14_WaterBody7.png" /></td><td>Water Body</td></tr></table>': layer_Soil_Map_14,'Irrigability_classification<br /><table><tr><td style="text-align: center;"><img src="legend/Irrigability_classification_13_IIs0.png" /></td><td>IIs</td></tr><tr><td style="text-align: center;"><img src="legend/Irrigability_classification_13_IIst1.png" /></td><td>IIst</td></tr><tr><td style="text-align: center;"><img src="legend/Irrigability_classification_13_IIIst2.png" /></td><td>IIIst</td></tr><tr><td style="text-align: center;"><img src="legend/Irrigability_classification_13_IVs3.png" /></td><td>IVs</td></tr><tr><td style="text-align: center;"><img src="legend/Irrigability_classification_13_IVst4.png" /></td><td>IVst</td></tr><tr><td style="text-align: center;"><img src="legend/Irrigability_classification_13_Waterbody5.png" /></td><td>Water body</td></tr></table>': layer_Irrigability_classification_13,'Land Capabiity Classificaton<br /><table><tr><td style="text-align: center;"><img src="legend/LandCapabiityClassificaton_12_II0.png" /></td><td>II</td></tr><tr><td style="text-align: center;"><img src="legend/LandCapabiityClassificaton_12_III1.png" /></td><td>III</td></tr><tr><td style="text-align: center;"><img src="legend/LandCapabiityClassificaton_12_IV2.png" /></td><td>IV</td></tr><tr><td style="text-align: center;"><img src="legend/LandCapabiityClassificaton_12_V3.png" /></td><td>V</td></tr><tr><td style="text-align: center;"><img src="legend/LandCapabiityClassificaton_12_Waterbody4.png" /></td><td>Water body</td></tr></table>': layer_LandCapabiityClassificaton_12,'Turmeric_suitability<br /><table><tr><td style="text-align: center;"><img src="legend/Turmeric_suitability_11_S10.png" /></td><td>S1</td></tr><tr><td style="text-align: center;"><img src="legend/Turmeric_suitability_11_S21.png" /></td><td>S2</td></tr><tr><td style="text-align: center;"><img src="legend/Turmeric_suitability_11_S32.png" /></td><td>S3</td></tr><tr><td style="text-align: center;"><img src="legend/Turmeric_suitability_11_N13.png" /></td><td>N1</td></tr><tr><td style="text-align: center;"><img src="legend/Turmeric_suitability_11_Waterbody4.png" /></td><td>Water body</td></tr></table>': layer_Turmeric_suitability_11,'Soybean_suitability<br /><table><tr><td style="text-align: center;"><img src="legend/Soybean_suitability_10_S10.png" /></td><td>S1</td></tr><tr><td style="text-align: center;"><img src="legend/Soybean_suitability_10_S21.png" /></td><td>S2</td></tr><tr><td style="text-align: center;"><img src="legend/Soybean_suitability_10_S32.png" /></td><td>S3</td></tr><tr><td style="text-align: center;"><img src="legend/Soybean_suitability_10_N13.png" /></td><td>N1</td></tr><tr><td style="text-align: center;"><img src="legend/Soybean_suitability_10_Waterbody4.png" /></td><td>Water body</td></tr></table>': layer_Soybean_suitability_10,'Pigeonpea_suitability<br /><table><tr><td style="text-align: center;"><img src="legend/Pigeonpea_suitability_9_S10.png" /></td><td>S1</td></tr><tr><td style="text-align: center;"><img src="legend/Pigeonpea_suitability_9_S21.png" /></td><td>S2</td></tr><tr><td style="text-align: center;"><img src="legend/Pigeonpea_suitability_9_S32.png" /></td><td>S3</td></tr><tr><td style="text-align: center;"><img src="legend/Pigeonpea_suitability_9_N13.png" /></td><td>N1</td></tr><tr><td style="text-align: center;"><img src="legend/Pigeonpea_suitability_9_Waterbody4.png" /></td><td>Water body</td></tr></table>': layer_Pigeonpea_suitability_9,'Sorghum_suitability<br /><table><tr><td style="text-align: center;"><img src="legend/Sorghum_suitability_8_S10.png" /></td><td>S1</td></tr><tr><td style="text-align: center;"><img src="legend/Sorghum_suitability_8_S21.png" /></td><td>S2</td></tr><tr><td style="text-align: center;"><img src="legend/Sorghum_suitability_8_S32.png" /></td><td>S3</td></tr><tr><td style="text-align: center;"><img src="legend/Sorghum_suitability_8_N13.png" /></td><td>N1</td></tr><tr><td style="text-align: center;"><img src="legend/Sorghum_suitability_8_Waterbody4.png" /></td><td>Water body</td></tr></table>': layer_Sorghum_suitability_8,'Cotton_suitability<br /><table><tr><td style="text-align: center;"><img src="legend/Cotton_suitability_7_N10.png" /></td><td>N1</td></tr><tr><td style="text-align: center;"><img src="legend/Cotton_suitability_7_S11.png" /></td><td>S1</td></tr><tr><td style="text-align: center;"><img src="legend/Cotton_suitability_7_S22.png" /></td><td>S2</td></tr><tr><td style="text-align: center;"><img src="legend/Cotton_suitability_7_S33.png" /></td><td>S3</td></tr><tr><td style="text-align: center;"><img src="legend/Cotton_suitability_7_Waterbody4.png" /></td><td>Water body</td></tr></table>': layer_Cotton_suitability_7,'Turmeric suitability_FAO<br /><table><tr><td style="text-align: center;"><img src="legend/Turmericsuitability_FAO_6_S10.png" /></td><td>S1</td></tr><tr><td style="text-align: center;"><img src="legend/Turmericsuitability_FAO_6_S21.png" /></td><td>S2</td></tr><tr><td style="text-align: center;"><img src="legend/Turmericsuitability_FAO_6_S32.png" /></td><td>S3</td></tr><tr><td style="text-align: center;"><img src="legend/Turmericsuitability_FAO_6_Waterbody3.png" /></td><td>Water body</td></tr></table>': layer_Turmericsuitability_FAO_6,'Soybean_suitability_FAO<br /><table><tr><td style="text-align: center;"><img src="legend/Soybean_suitability_FAO_5_S10.png" /></td><td>S1</td></tr><tr><td style="text-align: center;"><img src="legend/Soybean_suitability_FAO_5_S21.png" /></td><td>S2</td></tr><tr><td style="text-align: center;"><img src="legend/Soybean_suitability_FAO_5_S32.png" /></td><td>S3</td></tr><tr><td style="text-align: center;"><img src="legend/Soybean_suitability_FAO_5_Waterbody3.png" /></td><td>Water body</td></tr></table>': layer_Soybean_suitability_FAO_5,'Pigeonpea_suitability_FAO<br /><table><tr><td style="text-align: center;"><img src="legend/Pigeonpea_suitability_FAO_4_S10.png" /></td><td>S1</td></tr><tr><td style="text-align: center;"><img src="legend/Pigeonpea_suitability_FAO_4_S21.png" /></td><td>S2</td></tr><tr><td style="text-align: center;"><img src="legend/Pigeonpea_suitability_FAO_4_S32.png" /></td><td>S3</td></tr><tr><td style="text-align: center;"><img src="legend/Pigeonpea_suitability_FAO_4_Waterbody3.png" /></td><td>Water body</td></tr></table>': layer_Pigeonpea_suitability_FAO_4,'Sorghum_suitability_FAO<br /><table><tr><td style="text-align: center;"><img src="legend/Sorghum_suitability_FAO_3_S10.png" /></td><td>S1</td></tr><tr><td style="text-align: center;"><img src="legend/Sorghum_suitability_FAO_3_S21.png" /></td><td>S2</td></tr><tr><td style="text-align: center;"><img src="legend/Sorghum_suitability_FAO_3_S32.png" /></td><td>S3</td></tr><tr><td style="text-align: center;"><img src="legend/Sorghum_suitability_FAO_3_Waterbody3.png" /></td><td>Water body</td></tr></table>': layer_Sorghum_suitability_FAO_3,'Cotton_suitability_FAO<br /><table><tr><td style="text-align: center;"><img src="legend/Cotton_suitability_FAO_2_S10.png" /></td><td>S1</td></tr><tr><td style="text-align: center;"><img src="legend/Cotton_suitability_FAO_2_S21.png" /></td><td>S2</td></tr><tr><td style="text-align: center;"><img src="legend/Cotton_suitability_FAO_2_S32.png" /></td><td>S3</td></tr><tr><td style="text-align: center;"><img src="legend/Cotton_suitability_FAO_2_Waterbody3.png" /></td><td>Water body</td></tr></table>': layer_Cotton_suitability_FAO_2,"Google Satellite": layer_GoogleSatellite_1,"OSM Standard": layer_OSMStandard_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
